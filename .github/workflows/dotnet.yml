@@ -22,6 +22,7 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - run: ls
+    - run: cd .\razorWebApp\
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
