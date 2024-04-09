@@ -1,0 +1,56 @@
+{
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "guest_os_type": "Windows11_64",
+      "iso_url": "C:/Users/George Lungu/Downloads/Win11_23H2_EnglishInternational_x64v2.iso",
+      "iso_checksum": "705AC061688FFD7F5721DA844D01DF85433856EAFAA8441ECE94B270685CA2DB",
+      "communicator": "winrm",
+      "winrm_username": "root",
+      "winrm_password": "toor",
+      "winrm_timeout": "6h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1",
+      "vm_name": "Windows11VM",
+      "cpus": 8,
+      "memory": 6128,
+      "disk_size": 70440,
+      "hard_drive_interface": "sata",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--ioapic", "on"],
+        ["modifyvm", "{{.Name}}", "--graphicscontroller", "vmsvga"],
+        ["modifyvm", "{{.Name}}", "--firmware", "efi"]
+      ],
+      "floppy_files": [
+        "./autounattend.xml"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "inline": [
+        "Set-ExecutionPolicy Bypass -Scope Process -Force",
+        "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12",
+        "try {",
+        "  Invoke-WebRequest -UseBasicParsing 'https://dot.net/v1/dotnet-install.ps1' -OutFile dotnet-install.ps1",
+        "  & .\\dotnet-install.ps1 -Channel LTS | Out-File C:\\dotnet-install-log.txt",
+        "} catch {",
+        "  $_.Exception | Out-File C:\\dotnet-install-error.txt",
+        "  exit 1",
+        "}"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "./razorWebApp/razorWebApp.csproj",
+      "destination": "C:\\inetpub\\wwwroot\\razorWebApp"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "dotnet restore",
+        "dotnet build -c Release"
+      ]
+    }
+  ]
+}
