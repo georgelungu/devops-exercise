@@ -21,7 +21,8 @@ This project involves the creation and deployment of a simple WebApp, a web appl
 ### Usage
 - To use the Packer configuration, ensure Packer and VirtualBox are installed. Run `packer build` with the JSON file as an argument to create the VM image.
 
-## 3. GitHub Repository Documentation (Revised)
+
+## 3. GitHub Repository Documentation
 
 ### Dependabot
 - Dependabot is configured to ensure all dependencies are up-to-date, reducing the risk of security vulnerabilities. It automatically creates pull requests to update dependencies to the latest versions, helping to maintain the security and reliability of the application.
@@ -32,6 +33,8 @@ This project involves the creation and deployment of a simple WebApp, a web appl
   - **Pipelines Branch:** Used specifically for testing and refining CI/CD pipelines, ensuring that automation processes are robust and efficient.
   - **Packer Branch:** Dedicated to maintaining and updating Packer configurations, allowing for isolated testing and development of VM image creation scripts.
   - **Main Branch:** The production branch where the stable version of the application resides. All changes merged into this branch are considered ready for deployment.
+  - **README Branch:** Dedicated to create documentation for the project with general guidelines regarding to installation and useness.
+
   - This branching strategy ensures that changes are properly isolated and tested in their respective contexts before being integrated into the main codebase.
 
 ### CodeQL
